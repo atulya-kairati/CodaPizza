@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             ToppingCell(
                 topping = Topping.Pepperoni,
-                toppingPlacement = ToppingPlacement.Left,
+                placement = ToppingPlacement.Left,
                 onClickTopping = {}
             )
         }
