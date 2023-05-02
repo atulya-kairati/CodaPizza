@@ -8,6 +8,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
@@ -15,8 +18,12 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atulya.codapizza.R
+import com.atulya.codapizza.model.Pizza
 import com.atulya.codapizza.model.Topping
 import com.atulya.codapizza.model.ToppingPlacement
+
+
+private var pizza by mutableStateOf(Pizza())
 
 @Preview
 @Composable
@@ -49,8 +56,14 @@ private fun ToppingList(
         items(Topping.values()) { topping: Topping ->
             ToppingCell(
                 topping = topping,
-                placement = ToppingPlacement.All,
-                onClickTopping = {}
+                placement = pizza.toppings[topping],
+                onClickTopping = {
+                    val isOnPizza = pizza.toppings[topping] != null
+                    pizza = pizza.withTopping(
+                        topping,
+                        if (isOnPizza) null else ToppingPlacement.All
+                    )
+                }
             )
         }
     }
