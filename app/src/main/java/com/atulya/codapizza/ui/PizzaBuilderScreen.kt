@@ -41,7 +41,6 @@ fun PizzaBuilderScreen(
             pizza,
             onEditPizza = { updatedPizza ->
                 // callback to edit the state 
-                // 2nd time
                 pizza = updatedPizza
             },
             modifier = Modifier
@@ -100,8 +99,14 @@ private fun OrderButton(
     ) {
 
 
-        val currencyFormatter = NumberFormat.getCurrencyInstance()
-//        comment
+//        val currencyFormatter = NumberFormat.getCurrencyInstance()
+        /**
+         * [NumberFormat.getCurrencyInstance] is an expensive operation
+         * so we can use [remember] to save it during recomposition
+         * to reduce the overhead
+         */
+
+        val currencyFormatter = remember { NumberFormat.getCurrencyInstance() }
         val price = currencyFormatter.format(pizza.price)
         Text(
             text = stringResource(R.string.place_order_button, price)
