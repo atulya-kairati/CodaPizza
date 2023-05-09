@@ -100,6 +100,7 @@ private fun OrderButton(
 
 
         val currencyFormatter = NumberFormat.getCurrencyInstance()
+//        comment
         val price = currencyFormatter.format(pizza.price)
         Text(
             text = stringResource(R.string.place_order_button, price)
