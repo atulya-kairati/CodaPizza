@@ -23,6 +23,7 @@ import com.atulya.codapizza.R
 import com.atulya.codapizza.model.Pizza
 import com.atulya.codapizza.model.Topping
 import com.atulya.codapizza.model.ToppingPlacement
+import java.text.NumberFormat
 
 
 @Preview
@@ -30,16 +31,25 @@ import com.atulya.codapizza.model.ToppingPlacement
 fun PizzaBuilderScreen(
     modifier: Modifier = Modifier
 ) {
+
+    var pizza by remember { mutableStateOf(Pizza()) }
+
     Column(
         modifier = modifier
     ) {
         ToppingList(
+            pizza,
+            onEditPizza = { updatedPizza ->
+                // callback to edit the state
+                pizza = updatedPizza
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(1f, fill = true)
         )
 
         OrderButton(
+            pizza,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp)
@@ -49,10 +59,10 @@ fun PizzaBuilderScreen(
 
 @Composable
 private fun ToppingList(
+    pizza: Pizza,
+    onEditPizza: (Pizza) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    var pizza by remember { mutableStateOf(Pizza()) }
 
     Log.d("#> ToppingList", "${pizza.hashCode()}")
 
@@ -63,9 +73,14 @@ private fun ToppingList(
                 placement = pizza.toppings[topping],
                 onClickTopping = {
                     val isOnPizza = pizza.toppings[topping] != null
-                    pizza = pizza.withTopping(
-                        topping,
-                        if (isOnPizza) null else ToppingPlacement.All
+
+                    onEditPizza(
+                        // updating the pizza toppings
+                        // and passing a new updated pizza object
+                        pizza.withTopping(
+                            topping,
+                            if (isOnPizza) null else ToppingPlacement.All
+                        )
                     )
                 }
             )
@@ -75,14 +90,19 @@ private fun ToppingList(
 
 @Composable
 private fun OrderButton(
+    pizza: Pizza,
     modifier: Modifier = Modifier,
 ) {
     Button(
         modifier = modifier,
         onClick = {},
     ) {
+
+
+        val currencyFormatter = NumberFormat.getCurrencyInstance()
+        val price = currencyFormatter.format(pizza.price)
         Text(
-            text = stringResource(id = R.string.place_order_button)
+            text = stringResource(R.string.place_order_button, price)
                 .toUpperCase(Locale.current)
         )
     }
