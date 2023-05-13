@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.dp
 import com.atulya.codapizza.R
 import com.atulya.codapizza.model.Pizza
 import com.atulya.codapizza.model.Topping
-import com.atulya.codapizza.model.ToppingPlacement
 import java.text.NumberFormat
 
 
@@ -66,12 +65,21 @@ private fun ToppingList(
 ) {
     Log.d("#> ToppingList", "${pizza.hashCode()}")
 
-    var showToppingPlacementDialog by rememberSaveable { mutableStateOf(false) }
+    var toppingToBePlaced by rememberSaveable { mutableStateOf<Topping?>(null) }
 
-    if (showToppingPlacementDialog) {
+    toppingToBePlaced?.let { topping: Topping ->
         ToppingPlacementDialog(
             onDismissRequest = {
-                showToppingPlacementDialog = false
+                toppingToBePlaced = null
+            },
+            topping = topping,
+            onSelectedPlacement = { placement ->
+                onEditPizza(
+                    pizza.withTopping(
+                        topping,
+                        placement
+                    )
+                )
             }
         )
     }
@@ -82,9 +90,8 @@ private fun ToppingList(
                 topping = topping,
                 placement = pizza.toppings[topping],
                 onClickTopping = {
-                    val isOnPizza = pizza.toppings[topping] != null
 
-                    showToppingPlacementDialog = true
+                    toppingToBePlaced = topping
 //                    onEditPizza(
 //                        // updating the pizza toppings
 //                        // and passing a new updated pizza object
