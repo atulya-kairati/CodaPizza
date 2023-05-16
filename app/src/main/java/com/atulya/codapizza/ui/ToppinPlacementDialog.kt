@@ -41,8 +41,8 @@ fun ToppingPlacementDialog(
                     ToppingPlacementOption(
                         placementName = toppingPlacement.label,
                         onClick = {
-                            onDismissRequest()
                             onSelectedPlacement(toppingPlacement)
+                            onDismissRequest()
                         }
                     )
                 }

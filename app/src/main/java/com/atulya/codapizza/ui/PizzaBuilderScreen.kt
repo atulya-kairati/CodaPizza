@@ -1,13 +1,21 @@
 package com.atulya.codapizza.ui
 
 import android.util.Log
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Card
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.atulya.codapizza.R
 import com.atulya.codapizza.model.Pizza
+import com.atulya.codapizza.model.PizzaSize
 import com.atulya.codapizza.model.Topping
 import java.text.NumberFormat
 
@@ -37,6 +46,14 @@ fun PizzaBuilderScreen(
     Column(
         modifier = modifier
     ) {
+
+        PizzaSizeSelector(
+            pizza,
+            onSelectedPizzaSize = { updatedPizza ->
+                pizza = updatedPizza
+            }
+        )
+
         ToppingList(
             pizza,
             onEditPizza = { updatedPizza ->
@@ -90,16 +107,7 @@ private fun ToppingList(
                 topping = topping,
                 placement = pizza.toppings[topping],
                 onClickTopping = {
-
                     toppingToBePlaced = topping
-//                    onEditPizza(
-//                        // updating the pizza toppings
-//                        // and passing a new updated pizza object
-//                        pizza.withTopping(
-//                            topping,
-//                            if (isOnPizza) null else ToppingPlacement.All
-//                        )
-//                    )
                 }
             )
         }
@@ -130,5 +138,58 @@ private fun OrderButton(
             text = stringResource(R.string.place_order_button, price)
                 .toUpperCase(Locale.current)
         )
+    }
+}
+
+@Composable
+fun PizzaSizeSelector(
+    pizza: Pizza,
+    onSelectedPizzaSize: (Pizza) -> Unit
+) {
+
+    var isDropdownActive by rememberSaveable { mutableStateOf(false) }
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .clickable {
+                isDropdownActive = true
+            },
+        elevation = 4.dp,
+
+        ) {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Text(
+                text = stringResource(R.string.pizza_size_selector_label),
+                style = MaterialTheme.typography.subtitle1
+            )
+
+            Box {
+                Text(
+                    text = stringResource(pizza.size.size),
+                    style = MaterialTheme.typography.body1
+                )
+                DropdownMenu(
+                    expanded = isDropdownActive,
+                    onDismissRequest = { isDropdownActive = false }
+                ) {
+
+                    PizzaSize.values().forEach { pizzaSize ->
+                        TextButton(onClick = {
+                            onSelectedPizzaSize(pizza.withSize(pizzaSize))
+                            isDropdownActive = false
+                        }) {
+                            Text(
+                                text = stringResource(pizzaSize.size),
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
