@@ -102,6 +102,11 @@ private fun ToppingList(
     }
 
     LazyColumn(modifier = modifier) {
+
+        item {
+            PizzaHeroImage(pizza = pizza)
+        }
+
         items(Topping.values()) { topping: Topping ->
             ToppingCell(
                 topping = topping,
@@ -144,13 +149,14 @@ private fun OrderButton(
 @Composable
 fun PizzaSizeSelector(
     pizza: Pizza,
-    onSelectedPizzaSize: (Pizza) -> Unit
+    onSelectedPizzaSize: (Pizza) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     var isDropdownActive by rememberSaveable { mutableStateOf(false) }
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(8.dp)
             .clickable {

@@ -1,27 +1,35 @@
 package com.atulya.codapizza.model
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.atulya.codapizza.R
 
 enum class Topping(
-    @StringRes val toppingName: Int
+    @StringRes val toppingName: Int,
+    @DrawableRes val overlayPizzaImage: Int
 ) {
     Basil(
-        toppingName = R.string.topping_basil
+        toppingName = R.string.topping_basil,
+        overlayPizzaImage = R.drawable.topping_basil
     ),
     Mushroom(
-        toppingName = R.string.topping_mushroom
+        toppingName = R.string.topping_mushroom,
+        overlayPizzaImage = R.drawable.topping_mushroom
     ),
     Olive(
-        toppingName = R.string.topping_olive
+        toppingName = R.string.topping_olive,
+        overlayPizzaImage = R.drawable.topping_olive
     ),
     Peppers(
-        toppingName = R.string.topping_peppers
+        toppingName = R.string.topping_peppers,
+        overlayPizzaImage = R.drawable.topping_peppers
     ),
     Pepperoni(
-        toppingName = R.string.topping_pepperoni
+        toppingName = R.string.topping_pepperoni,
+        overlayPizzaImage = R.drawable.topping_pepperoni
     ),
     Pineapple(
-        toppingName = R.string.topping_pineapple
+        toppingName = R.string.topping_pineapple,
+        overlayPizzaImage = R.drawable.topping_pineapple
     )
 }
