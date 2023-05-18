@@ -35,7 +35,6 @@ fun ToppingCell(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClickTopping() }
-            .background(Color.Yellow.copy(alpha = 0.2f))
             .padding(
                 vertical = 4.dp,
                 horizontal = 16.dp
@@ -48,7 +47,6 @@ fun ToppingCell(
         Column {
             Text(
                 text = stringResource(id = topping.toppingName),
-                color = Color.DarkGray,
                 style = MaterialTheme.typography.body1
             )
             if (placement != null) {

@@ -158,7 +158,7 @@ fun PizzaSizeSelector(
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp)
+            .padding(8.dp, 4.dp, 8.dp, 0.dp)
             .clickable {
                 isDropdownActive = true
             },
@@ -171,13 +171,14 @@ fun PizzaSizeSelector(
         ) {
             Text(
                 text = stringResource(R.string.pizza_size_selector_label),
-                style = MaterialTheme.typography.subtitle1
+                style = MaterialTheme.typography.subtitle1,
             )
 
             Box {
                 Text(
                     text = stringResource(pizza.size.size),
-                    style = MaterialTheme.typography.body1
+                    style = MaterialTheme.typography.body1,
+                    color = MaterialTheme.colors.primary
                 )
                 DropdownMenu(
                     expanded = isDropdownActive,
