@@ -13,9 +13,12 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.DropdownMenu
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,35 +46,47 @@ fun PizzaBuilderScreen(
 
     var pizza by rememberSaveable { mutableStateOf(Pizza()) }
 
-    Column(
-        modifier = modifier
-    ) {
-
-        PizzaSizeSelector(
-            pizza,
-            onSelectedPizzaSize = { updatedPizza ->
-                pizza = updatedPizza
+    Scaffold(
+        modifier = Modifier,
+        topBar = {
+            TopAppBar {
+                Text(text = stringResource(R.string.app_name))
             }
-        )
+        },
+        content = { paddingValues ->
 
-        ToppingList(
-            pizza,
-            onEditPizza = { updatedPizza ->
-                // callback to edit the state 
-                pizza = updatedPizza
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f, fill = true)
-        )
+            Column(
+                modifier = modifier
+                    .padding(paddingValues)
+            ) {
 
-        OrderButton(
-            pizza,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        )
-    }
+                PizzaSizeSelector(
+                    pizza,
+                    onSelectedPizzaSize = { updatedPizza ->
+                        pizza = updatedPizza
+                    }
+                )
+
+                ToppingList(
+                    pizza,
+                    onEditPizza = { updatedPizza ->
+                        // callback to edit the state
+                        pizza = updatedPizza
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f, fill = true)
+                )
+
+                OrderButton(
+                    pizza,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                )
+            }
+        }
+    )
 }
 
 @Composable
