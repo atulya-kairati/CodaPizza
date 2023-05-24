@@ -21,5 +21,6 @@
     <string name="pizza_size_medium">Medium</string>
     <string name="pizza_size_big">Yuuge</string>
 
+    <string name="order_placed">Order Placed</string>
     <string name="pizza_preview">Pizza Preview</string>
 </resources>

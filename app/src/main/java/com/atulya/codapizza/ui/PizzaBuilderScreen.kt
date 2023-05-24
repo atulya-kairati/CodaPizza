@@ -1,6 +1,7 @@
 package com.atulya.codapizza.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
@@ -138,9 +140,18 @@ private fun OrderButton(
     pizza: Pizza,
     modifier: Modifier = Modifier,
 ) {
+
+    val context = LocalContext.current
+
     Button(
         modifier = modifier,
-        onClick = {},
+        onClick = {
+                  Toast.makeText(
+                      context,
+                      R.string.order_placed,
+                      Toast.LENGTH_SHORT
+                  ).show()
+        },
     ) {
 
 
